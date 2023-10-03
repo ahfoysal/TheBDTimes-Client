@@ -3,14 +3,16 @@ import { useForm, Controller } from 'react-hook-form';
 import { useSignupMutation } from '@/redux/features/auth/authApi';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { toast } from 'react-toastify';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { setUser } from '@/redux/features/auth/authSlice';
 import { useAppDispatch } from '@/redux/hook';
 import Cookies from 'js-cookie';
 import { Button } from '@nextui-org/button';
 import { Separator } from '@/components/ui/separator';
-
-const SignupPage = ({ setIsLogin }) => {
+interface LoginProps {
+  setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const SignupPage: React.FC<LoginProps> = ({ setIsLogin }) => {
   const {
     control,
     handleSubmit,
@@ -41,7 +43,7 @@ const SignupPage = ({ setIsLogin }) => {
     });
   }
 
-  const onSubmit = async (userData) => {
+  const onSubmit = async (userData: any) => {
     // try {
     await newUser(userData);
 
@@ -75,7 +77,7 @@ const SignupPage = ({ setIsLogin }) => {
                   />
                   {errors.username && (
                     <p className="text-left text-red-500 text-sm mt-2">
-                      {errors.username.message}
+                      {errors.username.message as string}
                     </p>
                   )}
                 </div>
@@ -98,7 +100,7 @@ const SignupPage = ({ setIsLogin }) => {
                   />
                   {errors.email && (
                     <p className="text-left text-red-500 text-sm mt-2">
-                      {errors.email.message}
+                      {errors.email.message as string}
                     </p>
                   )}
                 </div>
@@ -122,7 +124,7 @@ const SignupPage = ({ setIsLogin }) => {
                   />
                   {errors.password && (
                     <p className="text-left text-red-500 text-sm mt-2">
-                      {errors.password.message}
+                      {errors.password.message as string}
                     </p>
                   )}
                 </div>

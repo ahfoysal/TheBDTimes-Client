@@ -1,5 +1,5 @@
 import { PopoverAuth } from '@/components/AuthPopover';
-import { Button } from '@nextui-org/button';
+
 import { Link } from 'react-router-dom';
 
 export default function Navbar() {

@@ -1,4 +1,4 @@
-function timeAgoFunc(timestamp) {
+function timeAgoFunc(timestamp: number) {
   const currentTime = new Date().getTime();
   const timeDifference = currentTime - timestamp;
   const seconds = Math.floor(timeDifference / 1000);

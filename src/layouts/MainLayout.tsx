@@ -3,11 +3,9 @@ import Navbar from './Navbar';
 import LeftSideNav from '@/components/Shared/LeftSideNav';
 import { tv } from 'tailwind-variants';
 import { usepewdsflixSettings } from '@/hooks/useLocalStorage';
-import { useMemo } from 'react';
 
 export default function MainLayout() {
-  const { sidebarMiniMode, sidebarBoxedMode, sidebarHoverMode } =
-    usepewdsflixSettings();
+  const { sidebarMiniMode, sidebarBoxedMode } = usepewdsflixSettings();
 
   return (
     <div className=" border-[#262626] bg-black min-h-screen text-neutral-400  dark flex max-h-full  max-w-full flex-nowrap justify-start bg-content1/[0.3] transition-[padding] duration-200 p-0">

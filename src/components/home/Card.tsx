@@ -1,6 +1,5 @@
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -8,7 +7,7 @@ import {
 } from '@/components/ui/card';
 import timeAgoFunc from '@/helpers/timeAgo';
 
-const NewsCard = ({ item }) => {
+const NewsCard: React.FC<any> = ({ item }) => {
   const hasHeroImage = item?.story?.['hero-image-s3-key'];
 
   return (

@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 interface IUserState {
   user: {
@@ -7,10 +7,6 @@ interface IUserState {
   isLoading: boolean;
   isError: boolean;
   error: string | null;
-}
-interface ICredentials {
-  email: string;
-  password: string;
 }
 
 const initialState: IUserState = {

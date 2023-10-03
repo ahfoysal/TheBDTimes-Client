@@ -1,17 +1,20 @@
-import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useLoginMutation } from '@/redux/features/auth/authApi';
 import { toast } from 'react-toastify';
 import { ReloadIcon } from '@radix-ui/react-icons';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/redux/hook';
 import { setUser } from '@/redux/features/auth/authSlice';
 import Cookies from 'js-cookie';
 import { Button } from '@nextui-org/button';
 import { Separator } from '@/components/ui/separator';
+import React from 'react';
+interface LoginProps {
+  setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const LoginPage = ({ setIsLogin }) => {
+const LoginPage: React.FC<LoginProps> = ({ setIsLogin }) => {
   const navigate = useNavigate();
   const {
     control,
@@ -44,7 +47,7 @@ const LoginPage = ({ setIsLogin }) => {
     });
   }
 
-  const onSubmit = async (userData) => {
+  const onSubmit = async (userData: any) => {
     // try {
     await newUser(userData);
   };
@@ -74,7 +77,7 @@ const LoginPage = ({ setIsLogin }) => {
                   />
                   {errors.email && (
                     <p className="text-left text-red-500 text-sm mt-2">
-                      {errors.email.message}
+                      {errors?.email?.message as string}
                     </p>
                   )}
                 </div>
@@ -98,7 +101,7 @@ const LoginPage = ({ setIsLogin }) => {
                   />
                   {errors.password && (
                     <p className="text-left text-red-500 text-sm mt-2">
-                      {errors.password.message}
+                      {errors.password.message as string}
                     </p>
                   )}
                 </div>

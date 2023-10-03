@@ -1,11 +1,9 @@
 import { tv } from 'tailwind-variants';
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Spinner } from '@nextui-org/spinner';
@@ -329,30 +327,30 @@ const sidebarStyles = tv({
   },
 });
 
-const sidebarActiveStyles = tv({
-  base: 'h-[56px] justify-start transition-[width] duration-400',
-  variants: {
-    sidebarMiniMode: {
-      true: 'w-[56px]',
-      false: 'w-[215px]',
-    },
-    sidebarHoverMode: {
-      true: 'w-[215px]',
-    },
-    sidebarRoundedAll: {
-      true: 'rounded-small',
-      false: 'rounded-r-small',
-    },
-    sidebarPillAll: {
-      true: 'rounded-[56px]',
-      false: 'rounded-r-[56px]',
-    },
-  },
-  defaultVariants: {
-    sidebarMiniMode: false,
-    sidebarRoundedAll: true,
-  },
-});
+// const sidebarActiveStyles = tv({
+//   base: 'h-[56px] justify-start transition-[width] duration-400',
+//   variants: {
+//     sidebarMiniMode: {
+//       true: 'w-[56px]',
+//       false: 'w-[215px]',
+//     },
+//     sidebarHoverMode: {
+//       true: 'w-[215px]',
+//     },
+//     sidebarRoundedAll: {
+//       true: 'rounded-small',
+//       false: 'rounded-r-small',
+//     },
+//     sidebarPillAll: {
+//       true: 'rounded-[56px]',
+//       false: 'rounded-r-[56px]',
+//     },
+//   },
+//   defaultVariants: {
+//     sidebarMiniMode: false,
+//     sidebarRoundedAll: true,
+//   },
+// });
 
 const viewportPositionStyles = tv({
   base: '!fixed',
@@ -394,15 +392,15 @@ const viewportPositionStyles = tv({
   },
 });
 
-const navigationPartStyles = tv({
-  base: 'w-full overflow-x-visible overflow-y-scroll scrollbar-hide',
-  variants: {
-    sidebarBoxedMode: {
-      true: 'h-[calc(100%_-_100px)]',
-      false: 'h-[calc(100%_-_80px)]',
-    },
-  },
-  defaultVariants: {
-    sidebarBoxedMode: false,
-  },
-});
+// const navigationPartStyles = tv({
+//   base: 'w-full overflow-x-visible overflow-y-scroll scrollbar-hide',
+//   variants: {
+//     sidebarBoxedMode: {
+//       true: 'h-[calc(100%_-_100px)]',
+//       false: 'h-[calc(100%_-_80px)]',
+//     },
+//   },
+//   defaultVariants: {
+//     sidebarBoxedMode: false,
+//   },
+// });

@@ -15,7 +15,7 @@ export const api = createApi({
   }),
 
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://192.168.31.60:5000/api/v1/' }),
-  tagTypes: ['news', 'auth'],
+  tagTypes: ['news'],
 
   endpoints: () => ({}),
 });

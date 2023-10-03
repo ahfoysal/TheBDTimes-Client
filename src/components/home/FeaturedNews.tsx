@@ -1,7 +1,5 @@
 import { useFetchCollectionQuery } from '@/redux/features/news/collectionApi';
-import { Button } from '@nextui-org/button';
-import Marquee from 'react-fast-marquee';
-import { Link } from 'react-router-dom';
+
 import NewsCard from './Card';
 
 const FeaturedNews = () => {
