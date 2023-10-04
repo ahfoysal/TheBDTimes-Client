@@ -18,7 +18,9 @@ export default function MainLayout() {
       >
         {' '}
         <Navbar />
-        <Outlet />
+        <div className="mt-32">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

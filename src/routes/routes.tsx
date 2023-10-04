@@ -3,6 +3,7 @@ import App from '@/App';
 
 import Home from '@/pages/Home';
 import NotFound from '@/pages/NotFound';
+import NewsDetails from '@/pages/NewsDetails';
 
 const routes = createBrowserRouter([
   {
@@ -11,7 +12,12 @@ const routes = createBrowserRouter([
     children: [
       {
         index: true,
+        path: '/',
         element: <Home />,
+      },
+      {
+        path: '/news/:id',
+        element: <NewsDetails />,
       },
     ],
   },

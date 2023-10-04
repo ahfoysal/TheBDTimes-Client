@@ -1,64 +1,58 @@
+// authSlice.ts
+
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export interface IUser {
-  _id: string | null;
-  id: string | null;
-  userName: string | null;
-  role: string | null;
+  displayName: string | null;
+  photoURL: string | null;
   email: string | null;
-  profileImage?: string | null;
-  myBooks?: [];
-  bookmark?: [];
-  currentlyReading?: [];
-  finishedReading?: [];
-  planToRead?: [];
+  emailVerified: boolean | null;
+  uid: string | null;
 }
 
-export interface IUserState {
-    user: IUser;
-    accessToken: string | null;
+interface AuthState {
+  user: IUser;
 }
 
-const initialState: IUserState = {
-  user:{
-    id: null,
-  _id: null,
-  userName: null,
-  role: null,
-  email: null,
-  profileImage: null,
-  bookmark: [],
-  currentlyReading: [],
-  finishedReading: [],
-  planToRead: [],
+const initialState: AuthState = {
+  user: {
+    displayName: null,
+    emailVerified: null,
+    photoURL: null,
+    uid: null,
+    email: null,
   },
-  accessToken: null
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<Partial<IUser>>) => {
-      
-      state.user._id = action.payload._id ?? state.user._id;
-      state.user.id = action.payload.id ?? state.user.id;
-      state.user.userName = action.payload.userName ?? state.user.userName;
-      state.user.role = action.payload.role ?? state.user.role;
-      state.user.email = action.payload.email ?? state.user.email;
-      state.user.profileImage = action.payload.profileImage ?? state.user.profileImage;
-      state.user.myBooks = action.payload.myBooks ?? state.user.myBooks;
-      state.user.bookmark = action.payload.bookmark ?? state.user.bookmark;
-      state.user.currentlyReading = action.payload.currentlyReading ?? state.user.currentlyReading;
-      state.user.finishedReading = action.payload.finishedReading ?? state.user.finishedReading;
-      state.user.planToRead = action.payload.planToRead ?? state.user.planToRead;
+    setUser: (state, action: PayloadAction<IUser>) => {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.payload,
+          email: action.payload.email,
+        },
+      };
     },
-    setToken: (state, action: PayloadAction<string>) =>{
-      state.accessToken = action.payload
-    }
+    resetUser: (state) => {
+      return {
+        ...state,
+        user: {
+          displayName: null,
+          emailVerified: null,
+          photoURL: null,
+          uid: null,
+          email: null,
+        },
+      };
+    },
   },
-  
 });
-export const { setUser, setToken } = authSlice.actions;
+
+export const { setUser, resetUser } = authSlice.actions;
 
 export default authSlice.reducer;

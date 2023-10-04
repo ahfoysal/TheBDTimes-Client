@@ -1,55 +1,51 @@
 import { useForm, Controller } from 'react-hook-form';
-import { useLoginMutation } from '@/redux/features/auth/authApi';
-import { toast } from 'react-toastify';
 import { ReloadIcon } from '@radix-ui/react-icons';
-
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/redux/hook';
-import { setUser } from '@/redux/features/auth/authSlice';
-import Cookies from 'js-cookie';
+
 import { Button } from '@nextui-org/button';
 import { Separator } from '@/components/ui/separator';
-import React from 'react';
+import React, { useState } from 'react';
+import { setUser } from '@/redux/features/auth/authSlice';
+import { authHelper } from '@/firebase/authHelper';
 interface LoginProps {
   setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const LoginPage: React.FC<LoginProps> = ({ setIsLogin }) => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const { signIn } = authHelper();
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const [newUser, { data, error, isLoading, isError, isSuccess }] =
-    useLoginMutation();
-  if (isError) {
-    const errorId = 'error';
-
-    toast.error((error as any)?.data.message, {
-      position: 'bottom-left',
-      toastId: errorId,
-    });
-  }
   const dispatch = useAppDispatch();
 
-  if (isSuccess) {
-    const successId = 'success';
-    console.log(data.data);
-    dispatch(setUser(data?.data?.user));
-    Cookies.set('accessToken', data?.data.accessToken, { expires: 7 });
-
-    navigate('/');
-    toast.success(data.message, {
-      position: 'bottom-left',
-      toastId: successId,
-    });
-  }
-
   const onSubmit = async (userData: any) => {
-    // try {
-    await newUser(userData);
+    setIsLoading(true);
+    signIn(userData)
+      .then((result) => {
+        const { displayName, photoURL, email, emailVerified, uid } =
+          result.user;
+        const userPayload = {
+          displayName,
+          photoURL,
+          email,
+          emailVerified,
+          uid,
+        };
+        dispatch(setUser(userPayload));
+        navigate('/');
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -60,7 +56,10 @@ const LoginPage: React.FC<LoginProps> = ({ setIsLogin }) => {
         </h2>
         <Separator className="my-4" />
 
-        <form onSubmit={handleSubmit(onSubmit)} className="text-center">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="text-center text-white"
+        >
           <div className="mb-4">
             <Controller
               name="email"
@@ -128,7 +127,7 @@ const LoginPage: React.FC<LoginProps> = ({ setIsLogin }) => {
           Dont’t Have An Account ?{'   '}
           <span
             onClick={() => setIsLogin(false)}
-            className="text-blue-500  hover:text-blue-600"
+            className="text-blue-500  hover:text-blue-600 cursor-pointer"
           >
             Register
           </span>

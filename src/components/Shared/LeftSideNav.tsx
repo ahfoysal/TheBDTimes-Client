@@ -3,7 +3,7 @@ import { NavigationBrowse } from '../Navigation';
 
 const LeftSideNav: React.FC = () => {
   return (
-    <div>
+    <div className="z-50">
       <NavigationBrowse />
     </div>
   );

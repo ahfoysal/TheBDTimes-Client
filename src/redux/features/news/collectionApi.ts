@@ -8,7 +8,13 @@ const collectionApi = api.injectEndpoints({
         return { url: `collection/${args}?start_from=0&per_page=15` };
       },
     }),
+    fetchDetails: builder.query({
+      query: (args) => {
+        console.log(args);
+        return { url: `info/${args}` };
+      },
+    }),
   }),
 });
 
-export const { useFetchCollectionQuery } = collectionApi;
+export const { useFetchCollectionQuery, useFetchDetailsQuery } = collectionApi;

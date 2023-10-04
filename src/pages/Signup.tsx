@@ -1,55 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { useSignupMutation } from '@/redux/features/auth/authApi';
+
 import { ReloadIcon } from '@radix-ui/react-icons';
-import { toast } from 'react-toastify';
+
 import { useNavigate } from 'react-router-dom';
-import { setUser } from '@/redux/features/auth/authSlice';
+
 import { useAppDispatch } from '@/redux/hook';
-import Cookies from 'js-cookie';
+
 import { Button } from '@nextui-org/button';
 import { Separator } from '@/components/ui/separator';
+import { authHelper } from '@/firebase/authHelper';
+import { setUser } from '@/redux/features/auth/authSlice';
 interface LoginProps {
   setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const SignupPage: React.FC<LoginProps> = ({ setIsLogin }) => {
+const SignUpPage: React.FC<LoginProps> = ({ setIsLogin }) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [isLoading, setIsLoading] = useState(false);
+  const { signUp } = authHelper();
 
-  const [newUser, { data, error, isLoading, isSuccess, isError }] =
-    useSignupMutation();
-  if (isError) {
-    const customId = 'custom-id-yes';
-
-    toast.error((error as any)?.data.message, {
-      position: 'bottom-left',
-      toastId: customId,
-    });
-  }
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  if (isSuccess) {
-    const successId = 'success';
-    console.log(data);
-    dispatch(setUser(data?.data?.user));
-    Cookies.set('accessToken', data?.data.accessToken, { expires: 7 });
-    navigate('/');
-    toast.success(data.message, {
-      position: 'bottom-left',
-      toastId: successId,
-    });
-  }
 
   const onSubmit = async (userData: any) => {
-    // try {
-    await newUser(userData);
-
-    console.log(error);
-
-    console.log(data);
+    setIsLoading(true);
+    signUp(userData)
+      .then((result) => {
+        const { displayName, photoURL, email, emailVerified, uid } =
+          result.user;
+        const userPayload = {
+          displayName,
+          photoURL,
+          email,
+          emailVerified,
+          uid,
+        };
+        dispatch(setUser(userPayload));
+        navigate('/');
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -60,24 +57,27 @@ const SignupPage: React.FC<LoginProps> = ({ setIsLogin }) => {
         </h2>
         <Separator className="my-4" />
 
-        <form onSubmit={handleSubmit(onSubmit)} className="text-center">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="text-center text-white"
+        >
           <div className="mb-4">
             <Controller
-              name="userName"
+              name="name"
               control={control}
               defaultValue=""
-              rules={{ required: 'Username is required' }}
+              rules={{ required: 'Name is required' }}
               render={({ field }) => (
                 <div>
                   <input
                     {...field}
                     type="text"
-                    placeholder="Username"
+                    placeholder="Name"
                     className="w-full px-3 bg-[#27272A] py-2 rounded-md  focus:outline-none focus:border-blue-500"
                   />
-                  {errors.username && (
+                  {errors.name && (
                     <p className="text-left text-red-500 text-sm mt-2">
-                      {errors.username.message as string}
+                      {errors.name.message as string}
                     </p>
                   )}
                 </div>
@@ -131,12 +131,7 @@ const SignupPage: React.FC<LoginProps> = ({ setIsLogin }) => {
               )}
             />
           </div>
-          {/* <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none"
-          >
-            Sign Up
-          </button> */}
+
           <Button
             disabled={isLoading}
             className="w-full bg-blue-500 rounded-lg py-1 hover:bg-blue-600 text-white"
@@ -156,7 +151,7 @@ const SignupPage: React.FC<LoginProps> = ({ setIsLogin }) => {
           Already have an account?{' '}
           <span
             onClick={() => setIsLogin(true)}
-            className="text-blue-500 hover:text-blue-600"
+            className="text-blue-500 hover:text-blue-600 cursor-pointer"
           >
             Login
           </span>
@@ -166,4 +161,4 @@ const SignupPage: React.FC<LoginProps> = ({ setIsLogin }) => {
   );
 };
 
-export default SignupPage;
+export default SignUpPage;

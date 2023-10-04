@@ -18,7 +18,7 @@ const FeaturedNews = () => {
     console.log(isError);
   }
   return (
-    <div className="my-10">
+    <div className="my-4">
       {!isError && (
         <div className="grid grid-cols-3 gap-3  auto-rows-auto auto-cols-auto grid-flow-dense	">
           {data?.items?.map((item: any, index: number) => (

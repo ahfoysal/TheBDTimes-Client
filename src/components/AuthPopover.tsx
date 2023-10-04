@@ -26,9 +26,9 @@ export function PopoverAuth() {
       <PopoverContent
         side="bottom"
         align="end"
-        sideOffset={10}
+        sideOffset={5}
         alignOffset={0}
-        className="z-[1000] bg-[#18181B] backdrop-blur-2xl rounded-lg backdrop-contrast-125 backdrop-saturate-200 border-[#262626]"
+        className="z-[1000] bg-[#18181bb9] backdrop-blur-2xl rounded-lg backdrop-contrast-125 backdrop-saturate-200 border-[#262626]"
       >
         {isLogin ? (
           <LoginPage setIsLogin={setIsLogin} />
